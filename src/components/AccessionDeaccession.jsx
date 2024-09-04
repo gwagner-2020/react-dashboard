@@ -8,7 +8,7 @@ function AccessionDeaccession() {
     useEffect(() => {
         axios
             .get(
-                'https://api.artic.edu/api/v1/artworks?page=3&limit=100&fields=id,fiscal_year,fiscal_year_deaccession,department_title'
+                'https://api.artic.edu/api/v1/artworks?page=400&limit=100&fields=id,main_reference_number,fiscal_year,fiscal_year_deaccession,department_title'
             )
             .then(response => {      
                 setArtworks(response.data);
@@ -21,8 +21,17 @@ function AccessionDeaccession() {
     const artworksArray = artworks.data;
     console.log('artworksArray years: ', artworksArray);
 
+    function getYearFromReferenceNumber(arr) {
+        const refNumbers = artworksArray?.map(artwork => artwork?.main_reference_number);
+        console.log('refNumbers: ', refNumbers);
+        const years = refNumbers?.map(refNumber => refNumber.substring(0, refNumber.indexOf(".")));
+        console.log('Years from Reference Numbers: ', years)
+        return years;
+    }    
+    
     function countAcquisitionsPerYear(arr) {
-        const years = arr?.map(artwork => artwork?.fiscal_year); // Extract years
+        //const years = arr?.map(artwork => artwork?.fiscal_year); // Extract years
+        const years = getYearFromReferenceNumber(arr); // Extract years
         console.log("years: ", years);
         console.log("years data type: ", typeof years);
         const uniqueYears = [...new Set(years)]; // Get unique years
@@ -43,7 +52,7 @@ function AccessionDeaccession() {
     const sortedResult = result.sort((a, b) => a.year - b.year);
     console.log("Sorted result: ", sortedResult);
     const filteredSortedResult = sortedResult.filter(function (obj) {
-        return obj.year !== null;
+        return obj.year;
     });
     console.log("Filtered result: ", filteredSortedResult);
 

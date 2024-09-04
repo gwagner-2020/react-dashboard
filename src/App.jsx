@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css'
 import { Card, Metric, Text } from "@tremor/react";
 import AccessionDeaccession from './components/AccessionDeaccession';
+import CountByObjectType from './components/CountByObjectType';
 
 function App() {
   const [artworks, setArtworks] = useState([]);
@@ -38,7 +39,7 @@ function App() {
   
     useEffect(() => {
     // getAllArtworks();
-    axios.get('https://api.artic.edu/api/v1/artworks?page=3&limit=100')
+    axios.get('https://api.artic.edu/api/v1/artworks?page=400&limit=100')
     .then(response => {      
       setArtworks(response.data);
       }
@@ -66,10 +67,21 @@ function App() {
         {/* </div> */}
       </div>
 
+      <div className="text-left">
+        {/* <div className="grid grid-cols-2 gap-12"> */}
+          <div>
+            <h2 className="text-2xl font-bold mb-6">Count By Object Type</h2>
+            {/* <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="indigo"> */}
+              <CountByObjectType/>
+            {/* </Card> */}
+          </div>
+        {/* </div> */}
+      </div>
+
       <div>
         <ul>
           {artworksArray?.map(artwork=> (
-            <><li>{artwork?.artist_display}, {artwork?.title}</li><li>
+            <><li>{artwork?.artist_display}, {artwork?.title}, {artwork?.main_reference_number}</li><li>
               <img src={'https://www.artic.edu/iiif/2/' + artwork?.image_id + '/full/200,/0/default.jpg'} alt="artwork" />
             </li></>
           ))}
