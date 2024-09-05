@@ -76,7 +76,6 @@ function AccessionDeaccession() {
           />
         </>
       );
-    
 };
 
 export default AccessionDeaccession;

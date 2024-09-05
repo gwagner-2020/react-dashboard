@@ -4,6 +4,7 @@ import './App.css'
 import { Card, Metric, Text } from "@tremor/react";
 import AccessionDeaccession from './components/AccessionDeaccession';
 import CountByObjectType from './components/CountByObjectType';
+import CountByDepartment from './components/CountByDepartment.jsx';
 
 function App() {
   const [artworks, setArtworks] = useState([]);
@@ -73,6 +74,17 @@ function App() {
             <h2 className="text-2xl font-bold mb-6">Count By Object Type</h2>
             {/* <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="indigo"> */}
               <CountByObjectType/>
+            {/* </Card> */}
+          </div>
+        {/* </div> */}
+      </div>
+
+      <div className="text-left">
+        {/* <div className="grid grid-cols-2 gap-12"> */}
+          <div>
+            <h2 className="text-2xl font-bold mb-6">Count By Department</h2>
+            {/* <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="indigo"> */}
+              <CountByDepartment/>
             {/* </Card> */}
           </div>
         {/* </div> */}
