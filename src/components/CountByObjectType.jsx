@@ -1,33 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import {BarChart, BarList} from "@tremor/react";
 
-function CountByObjectType() {
-    const [artworks, setArtworks] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get(
-                'https://api.artic.edu/api/v1/artworks?page=400&limit=100&fields=id,main_reference_number,artwork_type_title'
-            )
-            .then(response => {      
-                setArtworks(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
+function CountByObjectType({artworks}) {
 
     const artworksArray = artworks.data;
-    console.log('artworksArray years: ', artworksArray);
-
-    // function getYearFromReferenceNumber(arr) {
-    //     const refNumbers = artworksArray?.map(artwork => artwork?.main_reference_number);
-    //     console.log('refNumbers: ', refNumbers);
-    //     const years = refNumbers?.map(refNumber => refNumber.substring(0, refNumber.indexOf(".")));
-    //     console.log('Years from Reference Numbers: ', years)
-    //     return years;
-    // }    
+    console.log('artworksArray years: ', artworksArray);  
     
     function countByObjectType(arr) {
         const objectTypes = arr?.map(artwork => artwork?.artwork_type_title); // Extract object types
@@ -52,14 +29,14 @@ function CountByObjectType() {
     const result = countByObjectType(artworksArray);
     console.log("Result:", result);
     const filteredResult = result.filter(function (obj) {
-        return obj.objectType !== null;
+        return obj.name;
     });
     console.log("Filtered result: ", filteredResult);
 
     return (
         <>
           <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-            Number of Artworks By Object Type
+            Types of Obects (object count)
           </h3>
           {/* <BarChart
             className="mt-6"
@@ -74,7 +51,7 @@ function CountByObjectType() {
             yAxis={{title: "count"}}
             yAxisWidth={48}
           /> */}
-          <BarList 
+          <BarList className="max-w-md mx-auto mt-6" color="purple"
             data={filteredResult} 
             sortOrder="ascending"
           />

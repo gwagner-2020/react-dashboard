@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css'
 import { Card, Metric, Text } from "@tremor/react";
+import icon1 from "./assets/icon1.png";
 import AccessionDeaccession from './components/AccessionDeaccession';
 import CountByObjectType from './components/CountByObjectType';
 import CountByDepartment from './components/CountByDepartment.jsx';
+import CountByOrigin from './components/CountByOrigin.jsx';
 
 function App() {
   const [artworks, setArtworks] = useState([]);
@@ -40,7 +42,7 @@ function App() {
   
     useEffect(() => {
     // getAllArtworks();
-    axios.get('https://api.artic.edu/api/v1/artworks?page=400&limit=100')
+    axios.get('https://api.artic.edu/api/v1/artworks?page=250&limit=100')
     .then(response => {      
       setArtworks(response.data);
       }
@@ -57,37 +59,48 @@ function App() {
 
   return (
     <>
+      {/* Header Div */}
+      <div className="sticky top-0 z-50 h-30 w-full flex items-center text-center bg-gradient-to-r from-purple-500 to-indigo-500">
+          <a href='/'>
+            <img className="mt-2 mb-2 ml-10 w-24" src={icon1} alt="person looking at image"/>
+          </a>
+          <span className="text-3xl tracking-wider text-center text-white mx-auto">
+            <span className="font-bold">Collection Statistics Dashboard</span>
+          </span>
+      </div>
+      
       <div className="text-left">
-        {/* <div className="grid grid-cols-2 gap-12"> */}
+        {/* <div className="grid grid-cols-1"> */}
           <div>
-            <h2 className="text-2xl font-bold mb-6">Acquisitions</h2>
-            {/* <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="indigo"> */}
-              <AccessionDeaccession/>
-            {/* </Card> */}
+            {/* <h2 className="text-2xl font-bold mb-6">Acquisitions</h2> */}
+            <Card className="mx-auto mt-6 mb-6" decoration="top" decorationColor="purple">
+              <AccessionDeaccession artworks={artworks}/>
+            </Card>
           </div>
         {/* </div> */}
       </div>
 
       <div className="text-left">
-        {/* <div className="grid grid-cols-2 gap-12"> */}
+        <div className="grid grid-cols-3 gap-12">
           <div>
-            <h2 className="text-2xl font-bold mb-6">Count By Object Type</h2>
-            {/* <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="indigo"> */}
-              <CountByObjectType/>
-            {/* </Card> */}
+            {/* <h2 className="text-2xl font-bold mb-6">Count By Object Type</h2> */}
+            <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="purple">
+              <CountByObjectType artworks={artworks}/>
+            </Card>
           </div>
-        {/* </div> */}
-      </div>
-
-      <div className="text-left">
-        {/* <div className="grid grid-cols-2 gap-12"> */}
           <div>
-            <h2 className="text-2xl font-bold mb-6">Count By Department</h2>
-            {/* <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="indigo"> */}
-              <CountByDepartment/>
-            {/* </Card> */}
+            {/* <h2 className="text-2xl font-bold mb-6">Count By Department</h2> */}
+            <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="purple">
+            <CountByDepartment artworks={artworks}/>
+            </Card>
           </div>
-        {/* </div> */}
+          <div>
+            {/* <h2 className="text-2xl font-bold mb-6">Count By Place Of Origin</h2> */}
+            <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="purple">
+              <CountByOrigin artworks={artworks}/>
+            </Card>
+          </div>
+        </div>
       </div>
 
       <div>

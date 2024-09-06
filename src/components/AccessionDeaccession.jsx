@@ -1,22 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import {BarChart} from "@tremor/react";
 
-function AccessionDeaccession() {
-    const [artworks, setArtworks] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get(
-                'https://api.artic.edu/api/v1/artworks?page=400&limit=100&fields=id,main_reference_number,fiscal_year,fiscal_year_deaccession,department_title'
-            )
-            .then(response => {      
-                setArtworks(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
+function AccessionDeaccession({artworks}) {
 
     const artworksArray = artworks.data;
     console.log('artworksArray years: ', artworksArray);
@@ -59,19 +44,17 @@ function AccessionDeaccession() {
     return (
         <>
           <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-            Number of artworks acquired per year
+            Objects Acquired (per year)
           </h3>
           <BarChart
             className="mt-6"
             data={filteredSortedResult}
             index="year"
             categories={['count']}
-            colors={['blue']}
+            colors={['purple']}
             valueFormatter={(number) =>
               `${Intl.NumberFormat("us").format(number).toString()}`
             }
-            xAxis={{title: "year"}}
-            yAxis={{title: "count"}}
             yAxisWidth={48}
           />
         </>
