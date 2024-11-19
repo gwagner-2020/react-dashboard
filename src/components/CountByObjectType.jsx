@@ -3,17 +3,19 @@ import {BarChart, BarList} from "@tremor/react";
 
 function CountByObjectType({artworks}) {
 
-    const artworksArray = artworks.data;
-    console.log('artworksArray years: ', artworksArray);  
+    // Use this one for a single api call
+    //const artworksArray = artworks.data;
+    const artworksArray = artworks;
+    //console.log('artworksArray years: ', artworksArray);  
     
     function countByObjectType(arr) {
         const objectTypes = arr?.map(artwork => artwork?.artwork_type_title); // Extract object types
-        console.log("objectTypes: ", objectTypes);
-        console.log("objectTypes type: ", typeof objectTypes);
+        //console.log("objectTypes: ", objectTypes);
+        //console.log("objectTypes type: ", typeof objectTypes);
         const uniqueObjectTypes = [...new Set(objectTypes)]; // Get unique object types
-        console.log("uniqueObjectTypes: ", uniqueObjectTypes);
+        //console.log("uniqueObjectTypes: ", uniqueObjectTypes);
         const counts = new Array(uniqueObjectTypes.length).fill(0); // Initialize counts array
-        console.log("counts: ", counts);
+        //console.log("counts: ", counts);
       
         for (let i = 0; i < objectTypes?.length; i++) {
           const index = uniqueObjectTypes.indexOf(objectTypes[i]);
@@ -27,11 +29,11 @@ function CountByObjectType({artworks}) {
     }
       
     const result = countByObjectType(artworksArray);
-    console.log("Result:", result);
+    //console.log("Result:", result);
     const filteredResult = result.filter(function (obj) {
         return obj.name;
     });
-    console.log("Filtered result: ", filteredResult);
+    //console.log("Filtered result: ", filteredResult);
 
     return (
         <>
@@ -53,7 +55,7 @@ function CountByObjectType({artworks}) {
           /> */}
           <BarList className="max-w-md mx-auto mt-6" color="purple"
             data={filteredResult} 
-            sortOrder="ascending"
+            sortOrder="descending"
           />
         </>
       );

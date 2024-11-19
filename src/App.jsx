@@ -10,6 +10,8 @@ import CountByOrigin from './components/CountByOrigin.jsx';
 
 function App() {
   const [artworks, setArtworks] = useState([]);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
 // const instance = axios.create({
 //   baseURL: 'https://api.artic.edu/api',
@@ -40,21 +42,45 @@ function App() {
 //     }
 //   }
   
-    useEffect(() => {
-    // getAllArtworks();
-    axios.get('https://api.artic.edu/api/v1/artworks?page=250&limit=100')
-    .then(response => {      
-      setArtworks(response.data);
-      }
-    )
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
+   /*    Code for one api call */
+  //   useEffect(() => {
+  //   // getAllArtworks();
+  //   axios.get('https://api.artic.edu/api/v1/artworks?page=250&limit=100')
+  //   .then(response => {      
+  //     setArtworks(response.data);
+  //     }
+  //   )
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }, []);
 
-  //console.log(artworks.pagination);
-  //console.log(artworks.data);
-  const artworksArray = artworks.data;
+  useEffect(() => {
+    const fetchData = async() => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`https://api.artic.edu/api/v1/artworks?page=${page}&limit=100`)
+        console.log('response: ', response);
+        setArtworks((prevArtworks) => [...prevArtworks, ...response.data.data]);      
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      } finally {
+        setLoading(false); 
+      }
+    };
+    fetchData();
+  }, [page]);
+
+  console.log('page: ', page);
+
+  const handleLoadMore = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  console.log("artworks: ", artworks)
+  //Use this artworksArray for single api call
+  //const artworksArray = artworks.data;
+  const artworksArray = artworks;
   console.log('artworksArray:', artworksArray);
 
   return (
@@ -104,13 +130,20 @@ function App() {
       </div>
 
       <div>
-        <ul>
+        <button onClick={handleLoadMore}>Load More</button>
+      </div>
+
+      <div>
+        {/* <ul>
           {artworksArray?.map(artwork=> (
             <><li>{artwork?.artist_display}, {artwork?.title}, {artwork?.main_reference_number}</li><li>
-              <img src={'https://www.artic.edu/iiif/2/' + artwork?.image_id + '/full/200,/0/default.jpg'} alt="artwork" />
+              {artwork?.image_id !== null &&
+              <img
+                src={'https://www.artic.edu/iiif/2/' + artwork?.image_id + '/full/200,/0/default.jpg'} alt="artwork"
+              />}
             </li></>
           ))}
-        </ul>
+        </ul> */}
         {/* {artworksArray?.map(artwork => (
         <img key={artwork?.id} src={'https://www.artic.edu/iiif/2/' + artwork?.image_id + '/full/843,/0/default.jpg'} alt="artwork"></img>
         ))} */}

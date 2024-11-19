@@ -3,17 +3,19 @@ import {BarChart, BarList} from "@tremor/react";
 
 function CountByOrigin({artworks}) {
 
-    const artworksArray = artworks.data;
-    console.log('artworksArray years: ', artworksArray);  
+    // Use this one for a single api call
+    //const artworksArray = artworks.data;
+    const artworksArray = artworks;
+    //console.log('artworksArray years: ', artworksArray);  
     
     function countByPlaceOfOrigin(arr) {
         const placesOfOrigin = arr?.map(artwork => artwork?.place_of_origin); // Extract places of origin
-        console.log("placesOfOrigin: ", placesOfOrigin);
-        console.log("placesOfOrigin type: ", typeof placesOfOrigin);
+        //console.log("placesOfOrigin: ", placesOfOrigin);
+        //console.log("placesOfOrigin type: ", typeof placesOfOrigin);
         const uniquePlacesOfOrigin = [...new Set(placesOfOrigin)]; // Get unique places of origin
-        console.log("uniquePlacesOfOrigin: ", uniquePlacesOfOrigin);
+        //console.log("uniquePlacesOfOrigin: ", uniquePlacesOfOrigin);
         const counts = new Array(uniquePlacesOfOrigin.length).fill(0); // Initialize counts array
-        console.log("counts: ", counts);
+        //console.log("counts: ", counts);
       
         for (let i = 0; i < placesOfOrigin?.length; i++) {
           const index = uniquePlacesOfOrigin.indexOf(placesOfOrigin[i]);
@@ -27,11 +29,11 @@ function CountByOrigin({artworks}) {
     }
       
     const result = countByPlaceOfOrigin(artworksArray);
-    console.log("Result:", result);
+    //console.log("Result:", result);
     const filteredResult = result.filter(function (obj) {
         return obj.name;
     });
-    console.log("Filtered result: ", filteredResult);
+    //console.log("Filtered result: ", filteredResult);
 
     return (
         <>
@@ -53,7 +55,7 @@ function CountByOrigin({artworks}) {
           /> */}
           <BarList className="max-w-md mx-auto mt-6" color="purple"
             data={filteredResult} 
-            sortOrder="ascending"
+            sortOrder="descending"
             showAnimation="true"
           />
         </>
