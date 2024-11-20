@@ -91,7 +91,7 @@ function App() {
             <img className="mt-2 mb-2 ml-10 w-24" src={icon1} alt="person looking at image"/>
           </a>
           <span className="text-3xl tracking-wider text-center text-white mx-auto">
-            <span className="font-bold">Collection Statistics Dashboard</span>
+            <span className="font-bold">Collection Insights Dashboard</span>
           </span>
       </div>
       
