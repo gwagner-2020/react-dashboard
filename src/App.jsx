@@ -10,6 +10,9 @@ import CountByOrigin from './components/CountByOrigin.jsx';
 
 function App() {
   const [artworks, setArtworks] = useState([]);
+  const [artworksByObjectType, setArtworksByObjectType] = useState([]);
+  const [artworksByDepartment, setArtworksByDepartment] = useState([]);
+  const [artworksByOrigin, setArtworksByOrigin] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -55,14 +58,184 @@ function App() {
   //     });
   // }, []);
 
+  /* Code for the multiple load button api calls */
+  // useEffect(() => {
+  //   const fetchData = async() => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await axios.get(`https://api.artic.edu/api/v1/artworks?page=${page}&limit=100`)
+  //       console.log('response: ', response);
+  //       setArtworks((prevArtworks) => [...prevArtworks, ...response.data.data]);      
+  //     } catch (error) {
+  //       console.error("Error fetching data: ", error);
+  //     } finally {
+  //       setLoading(false); 
+  //     }
+  //   };
+  //   fetchData();
+  // }, [page]);
+
+  // console.log('page: ', page);
+
+  // const handleLoadMore = () => {
+  //   setPage((prevPage) => prevPage + 1);
+  // };
+
+  // console.log("artworks: ", artworks)
+  // //Use this artworksArray for single api call
+  // //const artworksArray = artworks.data;
+  // const artworksArray = artworks;
+  // console.log('artworksArray:', artworksArray);
+
+  //https://api.artic.edu/api/v1/artworks/search?size=0&aggs[my-agg-name][terms][field]=place_of_origin.keyword
+  //https://api.artic.edu/api/v1/artworks/search?size=0&aggs[fiscal-year][terms][field]=fiscal_year
   useEffect(() => {
     const fetchData = async() => {
       setLoading(true);
       try {
-        const response = await axios.get(`https://api.artic.edu/api/v1/artworks?page=${page}&limit=100`)
+        const query1 = {
+          params: {
+            'size': 0,
+            'aggs': {
+              'my_buckets': {
+                'composite': {
+                  'size': 500,
+                  'sources': [
+                    {
+                      'fiscal_year': {
+                        'terms': {
+                          'field': 'fiscal_year'
+                        }
+                      }
+                    }//,
+                    // {
+                    //   'artwork_type_id': {
+                    //     'terms': {
+                    //       'field': 'artwork_type_id'
+                    //     }
+                    //   }
+                    // }
+                  ]
+                }
+              }
+            }
+          }
+        };
+        const query2 = 
+        {
+          params: {
+            'size': 0,
+            'aggs': {
+              'my_buckets': {
+                'composite': {
+                  'sources': [
+                    {
+                      'fiscal_year': {
+                        'terms': {
+                          'field': 'fiscal_year'
+                        }
+                      }
+                    }
+                  ],
+                  'after': { 'fiscal_year': 1922 } 
+                }
+              }
+            }
+          }
+        };
+
+        const query3 = {
+          params: {
+            'size': 0,
+            'aggs': {
+              'my_buckets': {
+                'composite': {
+                  'size': 500,
+                  'sources': [
+                    {
+                      'artwork_type_title': {
+                        'terms': {
+                          'field': 'artwork_type_title.keyword'
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        };
+
+        const query4 = {
+          params: {
+            'size': 0,
+            'aggs': {
+              'my_buckets': {
+                'composite': {
+                  'size': 500,
+                  'sources': [
+                    {
+                      'department_title': {
+                        'terms': {
+                          'field': 'department_title.keyword'
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        };
+
+        const query5 = {
+          params: {
+            'size': 0,
+            'aggs': {
+              'my_buckets': {
+                'composite': {
+                  'size': 100,
+                  'sources': [
+                    {
+                      'place_of_origin': {
+                        'terms': {
+                          'field': 'place_of_origin.keyword'
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        };
+        //const response = await axios.get(`https://api.artic.edu/api/v1/artworks/search?size=0&aggs[bucket][composite][sources][fiscal_year][terms][field]=fiscal_year`)
+        const [response, response3, response4, response5] = await Promise.all([
+        //const response = await axios.get(`https://api.artic.edu/api/v1/artworks/search`, query1);
+        axios.get(`https://api.artic.edu/api/v1/artworks/search`, query1),
+        //console.log('response: ', response);
+        //const afterKey = response.data.aggregations.my_buckets.after_key.fiscal_year;
+        //console.log('afterKey: ', afterKey);
+        //const response2 = await axios.get(`https://api.artic.edu/api/v1/artworks/search?size=0&aggs[bucket][composite][sources][fiscal_year][terms][field]=fiscal_year[after][fiscal_year]=1922`)
+        //const response2 = await axios.get(`https://api.artic.edu/api/v1/artworks/search`, query2);
+        //console.log('response2: ', response2);
+        //setArtworks((prevArtworks) => [...prevArtworks, ...response.data.data]);
+        //setArtworks(response.data.aggregations.my_buckets.buckets);
+        
+        //const response3 = await axios.get(`https://api.artic.edu/api/v1/artworks/search`, query3);
+        axios.get(`https://api.artic.edu/api/v1/artworks/search`, query3),
+        axios.get(`https://api.artic.edu/api/v1/artworks/search`, query4),
+        axios.get(`https://api.artic.edu/api/v1/artworks/search`, query5)
+      ]);
         console.log('response: ', response);
-        setArtworks((prevArtworks) => [...prevArtworks, ...response.data.data]);      
-      } catch (error) {
+        console.log('response3: ', response3);
+        console.log('response4: ', response4);
+        console.log('response5: ', response5);
+        setArtworks(response.data.aggregations.my_buckets.buckets);
+        setArtworksByObjectType(response3.data.aggregations.my_buckets.buckets);
+        setArtworksByDepartment(response4.data.aggregations.my_buckets.buckets);
+        setArtworksByOrigin(response5.data.aggregations.my_buckets.buckets);
+      } catch (error) {  
         console.error("Error fetching data: ", error);
       } finally {
         setLoading(false); 
@@ -82,6 +255,9 @@ function App() {
   //const artworksArray = artworks.data;
   const artworksArray = artworks;
   console.log('artworksArray:', artworksArray);
+  console.log('artworksByObjectType: ', artworksByObjectType);
+  console.log('artworksByDepartment: ', artworksByDepartment);
+  console.log('artworksByOrigin: ', artworksByOrigin);
 
   return (
     <>
@@ -111,19 +287,19 @@ function App() {
           <div>
             {/* <h2 className="text-2xl font-bold mb-6">Count By Object Type</h2> */}
             <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="purple">
-              <CountByObjectType artworks={artworks}/>
+              <CountByObjectType artworks={artworksByObjectType}/>
             </Card>
           </div>
           <div>
             {/* <h2 className="text-2xl font-bold mb-6">Count By Department</h2> */}
             <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="purple">
-            <CountByDepartment artworks={artworks}/>
+            <CountByDepartment artworks={artworksByDepartment}/>
             </Card>
           </div>
           <div>
             {/* <h2 className="text-2xl font-bold mb-6">Count By Place Of Origin</h2> */}
             <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="purple">
-              <CountByOrigin artworks={artworks}/>
+              <CountByOrigin artworks={artworksByOrigin}/>
             </Card>
           </div>
         </div>
