@@ -36,13 +36,13 @@ function CountByDepartment({artworks}) {
     // //console.log("Filtered result: ", filteredResult);
 
     const updatedArtworks = artworksArray.map(artwork => {
-      return { name: artwork.key.department_title, value: artwork.doc_count}; 
+      return { name: artwork.key.department_title, value: artwork.doc_count }; 
     });
 
     return (
         <>
           <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-            Departments (object count)
+            Department
           </h3>
           {/* <BarChart
             className="mt-6"

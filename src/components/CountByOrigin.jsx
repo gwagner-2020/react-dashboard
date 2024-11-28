@@ -36,13 +36,13 @@ function CountByOrigin({artworks}) {
     // //console.log("Filtered result: ", filteredResult);
 
     const updatedArtworks = artworksArray.map(artwork => {
-      return { name: artwork.key.place_of_origin, value: artwork.doc_count}; 
-    });
+      return { name: artwork.key.place_of_origin, value: artwork.doc_count };
+    }).sort((a, b) => b.value - a.value).slice(0, 20);
 
     return (
         <>
           <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-            Places Of Origin (object count)
+            Place of Origin (Top 20)
           </h3>
           {/* <BarChart
             className="mt-6"

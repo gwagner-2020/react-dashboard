@@ -9,7 +9,7 @@ import CountByDepartment from './components/CountByDepartment.jsx';
 import CountByOrigin from './components/CountByOrigin.jsx';
 
 function App() {
-  const [artworks, setArtworks] = useState([]);
+  const [artworksByYearAcquired, setArtworksByYearAcquired] = useState([]);
   const [artworksByObjectType, setArtworksByObjectType] = useState([]);
   const [artworksByDepartment, setArtworksByDepartment] = useState([]);
   const [artworksByOrigin, setArtworksByOrigin] = useState([]);
@@ -93,7 +93,7 @@ function App() {
     const fetchData = async() => {
       setLoading(true);
       try {
-        const query1 = {
+        const queryGetByYearAcquired = {
           params: {
             'size': 0,
             'aggs': {
@@ -121,6 +121,7 @@ function App() {
             }
           }
         };
+
         const query2 = 
         {
           params: {
@@ -144,7 +145,7 @@ function App() {
           }
         };
 
-        const query3 = {
+        const queryGetByObjectType = {
           params: {
             'size': 0,
             'aggs': {
@@ -166,7 +167,7 @@ function App() {
           }
         };
 
-        const query4 = {
+        const queryGetByDept = {
           params: {
             'size': 0,
             'aggs': {
@@ -188,13 +189,13 @@ function App() {
           }
         };
 
-        const query5 = {
+        const queryGetByPlaceOrigin = {
           params: {
             'size': 0,
             'aggs': {
               'my_buckets': {
                 'composite': {
-                  'size': 100,
+                  'size': 2000,
                   'sources': [
                     {
                       'place_of_origin': {
@@ -210,9 +211,9 @@ function App() {
           }
         };
         //const response = await axios.get(`https://api.artic.edu/api/v1/artworks/search?size=0&aggs[bucket][composite][sources][fiscal_year][terms][field]=fiscal_year`)
-        const [response, response3, response4, response5] = await Promise.all([
+        const [responseByYearAcquired, responseByObjectType, responseByDept, responseByPlaceOrigin] = await Promise.all([
         //const response = await axios.get(`https://api.artic.edu/api/v1/artworks/search`, query1);
-        axios.get(`https://api.artic.edu/api/v1/artworks/search`, query1),
+        axios.get(`https://api.artic.edu/api/v1/artworks/search`, queryGetByYearAcquired),
         //console.log('response: ', response);
         //const afterKey = response.data.aggregations.my_buckets.after_key.fiscal_year;
         //console.log('afterKey: ', afterKey);
@@ -223,18 +224,18 @@ function App() {
         //setArtworks(response.data.aggregations.my_buckets.buckets);
         
         //const response3 = await axios.get(`https://api.artic.edu/api/v1/artworks/search`, query3);
-        axios.get(`https://api.artic.edu/api/v1/artworks/search`, query3),
-        axios.get(`https://api.artic.edu/api/v1/artworks/search`, query4),
-        axios.get(`https://api.artic.edu/api/v1/artworks/search`, query5)
+        axios.get(`https://api.artic.edu/api/v1/artworks/search`, queryGetByObjectType),
+        axios.get(`https://api.artic.edu/api/v1/artworks/search`, queryGetByDept),
+        axios.get(`https://api.artic.edu/api/v1/artworks/search`, queryGetByPlaceOrigin)
       ]);
-        console.log('response: ', response);
-        console.log('response3: ', response3);
-        console.log('response4: ', response4);
-        console.log('response5: ', response5);
-        setArtworks(response.data.aggregations.my_buckets.buckets);
-        setArtworksByObjectType(response3.data.aggregations.my_buckets.buckets);
-        setArtworksByDepartment(response4.data.aggregations.my_buckets.buckets);
-        setArtworksByOrigin(response5.data.aggregations.my_buckets.buckets);
+        console.log('responseByYearAcquired: ', responseByYearAcquired);
+        console.log('responseByObjectType: ', responseByObjectType);
+        console.log('responseByDept: ', responseByDept);
+        console.log('responseByPlaceOrigin: ', responseByPlaceOrigin);
+        setArtworksByYearAcquired(responseByYearAcquired.data.aggregations.my_buckets.buckets);
+        setArtworksByObjectType(responseByObjectType.data.aggregations.my_buckets.buckets);
+        setArtworksByDepartment(responseByDept.data.aggregations.my_buckets.buckets);
+        setArtworksByOrigin(responseByPlaceOrigin.data.aggregations.my_buckets.buckets);
       } catch (error) {  
         console.error("Error fetching data: ", error);
       } finally {
@@ -250,11 +251,11 @@ function App() {
     setPage((prevPage) => prevPage + 1);
   };
 
-  console.log("artworks: ", artworks)
+  console.log("artworksByYearAcquired: ", artworksByYearAcquired)
   //Use this artworksArray for single api call
   //const artworksArray = artworks.data;
-  const artworksArray = artworks;
-  console.log('artworksArray:', artworksArray);
+  const artworksArrayByYearAcquired = artworksByYearAcquired;
+  console.log('artworksArrayByYearAcquired:', artworksArrayByYearAcquired);
   console.log('artworksByObjectType: ', artworksByObjectType);
   console.log('artworksByDepartment: ', artworksByDepartment);
   console.log('artworksByOrigin: ', artworksByOrigin);
@@ -276,7 +277,7 @@ function App() {
           <div>
             {/* <h2 className="text-2xl font-bold mb-6">Acquisitions</h2> */}
             <Card className="mx-auto mt-6 mb-6" decoration="top" decorationColor="purple">
-              <AccessionDeaccession artworks={artworks}/>
+              <AccessionDeaccession artworks={artworksByYearAcquired}/>
             </Card>
           </div>
         {/* </div> */}

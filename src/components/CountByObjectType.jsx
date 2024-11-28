@@ -36,14 +36,14 @@ function CountByObjectType({artworks}) {
     // //console.log("Filtered result: ", filteredResult);
 
     const updatedArtworks = artworksArray.map(artwork => {
-      return { name: artwork.key.artwork_type_title , value: artwork.doc_count}; 
-    });
+      return { name: artwork.key.artwork_type_title , value: artwork.doc_count }; 
+    }).sort((a, b) => b.value - a.value).slice(0, 20);
     console.log("updatedArtworks By object type: ", updatedArtworks);
 
     return (
         <>
           <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-            Count Per Object Type
+            Object Type (Top 20)
           </h3>
           {/* <BarChart
             className="mt-6"
