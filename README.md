@@ -3,15 +3,17 @@
 
 ## Application Overview
 
+![dashboard thumbnail](src/assets/dashboardThumbnail.png)
+
 The *Collection Insights Dashboard* aggregates and visualizes collection data so that museum leadership and curatorial staff have a snapshot view of trends and patterns wihtin a museum’s collecting history.  
 
-As organizations align acquisition activity with collecting priorities and mission objectives, data plays a pivotal role in this process. Quick access to meaningful information and statistics about the collection is needed to inform curatorial decisions. However, this data can often be out of reach when leadership and curators are faced with choices that impact the collection and its growth.  
+As organizations align acquisition activity with collecting priorities and mission objectives, data plays a pivotal role in this process. Quick access to meaningful information and metrics about the collection is needed to inform curatorial decisions. However, this data can often be out of reach when leadership and curators are faced with choices that impact the collection and its growth.  
 
-As proof of concept for a highly-available, web-based application tool, the *Collection Insights Dashboard* surfaces and visualizes object-related information to empower effective and responsible collection stewardship.
+As a proof of concept for a highly-available, web-based application tool, the *Collection Insights Dashboard* surfaces and visualizes object-related information to empower effective and responsible collection stewardship.
 
 ### Features
 
-Individual tiles present different aggregations of data to reveal patterns in amounts and types of objects in the collection and the contextual information around their acquisition.
+Individual dashboard tiles present different aggregations of data to reveal patterns in the collection's growth and makeup. A Home Page presents data for the organization overall, while a Department Dashboard Page reveals metrics for the individual curatorial divisions.
 
 Sample tiles:
 
@@ -24,11 +26,11 @@ Sample tiles:
 
 ### Frontend
 
-- [React](https://react.dev/) (18.3.1) application with [Vite](https://vite.dev/) (5.4.1) frontend build tool, which leverages the [Tremor](https://tremor.so/) (3.18.0) chart and dashboard library and [Tailwind CSS](https://tailwindcss.com/) (3.4.10) styling framework. [ESLint](https://eslint.org/) (9.9.0) is the JavaScript code analysis tool used.  
+- [React](https://react.dev/) (18.3.1) application with [Vite](https://vite.dev/) (5.4.1) frontend build tool, which leverages the [Tremor](https://tremor.so/) (3.18.0) chart and dashboard library and [Tailwind CSS](https://tailwindcss.com/) (3.4.10) styling framework.
 
 ### API
 
-- The frontend calls the [Art Institute of Chicago API](https://api.artic.edu/docs/#introduction) for data. Currently, [“collections” endpoints](https://api.artic.edu/docs/#collections) are utilized, and calls follow the standards as put forth by the AIC.
+- The frontend calls the [Art Institute of Chicago API](https://api.artic.edu/docs/#introduction) for data. Currently, [“collections” endpoints](https://api.artic.edu/docs/#collections) are utilized, and calls follow the standards as put forth by the AIC. Also, [Elasticsearch](https://www.elastic.co/elasticsearch) is leveraged.
 
 ## Dev Environment Setup
 
@@ -52,4 +54,6 @@ Sample tiles:
 
 - Eager to focus initial efforts on connecting and surfacing the data, I faced the challenge of designing a UX/UI dashboard from scratch. As a result, I researched and identified available libraries, and decided upon Tremor, which provides built-in chart and dashboard templates. This was a valuable design decsion that benefited the development process.
 
-- **Pagination TK**
+- Early iterations of the site pulled back a list of artworks and applied calculations to artworks' properties to gather metrics. This approach proved cumbersome and was limited by pagination restrictions. Bucket aggregations provided a useful alternative, and the code was refactored to use aggregations. These updated queries, which follow Elasticsearch standards, provide low-impact retrieval of complete data sets spanning the entire collection.
+
+- Future work will include drilling down into specific years to provide a more granular look at the data. Also, cross-reference with exhibition metrics is another planned feature.
