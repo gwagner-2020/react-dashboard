@@ -1,40 +1,49 @@
 import React, {useState} from 'react';
-import { Select, SelectItem } from "@tremor/react";
-import DepartmentDashboard from './DepartmentDashboard';
+import { NavLink } from 'react-router-dom';
+import { Select, SelectItem, Card } from "@tremor/react";
+import GenerateSelectList from './api/GenerateSelectList';
+import DepartmentMetrics from './api/DepartmentMetrics';
 
-function SelectList({artworks, stats}) {
+function SelectList() {
 
-    const artworksArray = artworks;
-    const departments = artworksArray.map(artwork => {
-        return { value: artwork.key.department_title, label: artwork.key.department_title };
-    }).sort((a, b) => a.value - b.value);
-    //console.log("departments: ", departments);
-    //console.log("stats: ", stats);
-    
+    const departments = GenerateSelectList();
+
     const [selectedDepartment, setSelectedDepartment] = useState("");
-
+    
     const handleSelectChange = (value) => {
         setSelectedDepartment(value);
       };
     
     return (
         <div>
+            {/* Navigation Div */}
             <div>
-                <Select
-                    value={selectedDepartment}
-                    onValueChange={handleSelectChange}
-                    placeholder={"Select a department"}
-                >
-                    {departments.map((department) => (
-                        <SelectItem key={department.value} value={department.value}>
-                        {department.label}
-                        </SelectItem>
-                    ))}
-                </Select>
+                <NavLink to="/">
+                    <div>Home</div>
+                </NavLink>
+            </div>
+            
+            {/* Department Select Div */}
+            <div className="text-left">
+                <div>
+                    <Card className="mx-auto mt-6 mb-6" decoration="top" decorationColor="purple">
+                        <Select
+                            value={selectedDepartment}
+                            onValueChange={handleSelectChange}
+                            placeholder={"Select a department"}
+                        >
+                            {departments.map((department) => (
+                                <SelectItem key={department.value} value={department.value}>
+                                {department.label}
+                                </SelectItem>
+                            ))}
+                        </Select>
+                    </Card>
+                </div>
             </div>
 
             <div>
-                <DepartmentDashboard stats={stats} department={selectedDepartment}/>
+                <DepartmentMetrics department={selectedDepartment}/>
             </div>
         </div>
     );
