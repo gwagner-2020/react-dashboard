@@ -217,33 +217,27 @@ function Home() {
       
       {/* Accession Tile Div */}
       <div className="text-left">
-        {/* <div className="grid grid-cols-1"> */}
           <div>
-            {/* <h2 className="text-2xl font-bold mb-6">Acquisitions</h2> */}
             <Card className="mx-auto mt-6 mb-6" decoration="top" decorationColor="purple">
               <AccessionDeaccession artworks={artworksByYearAcquired}/>
             </Card>
           </div>
-        {/* </div> */}
       </div>
 
       {/* Other Counts Tiles Div */}
       <div className="text-left">
         <div className="grid grid-cols-3 gap-12">
           <div>
-            {/* <h2 className="text-2xl font-bold mb-6">Count By Object Type</h2> */}
             <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="purple">
               <CountByObjectType artworks={artworksByObjectType}/>
             </Card>
           </div>
           <div>
-            {/* <h2 className="text-2xl font-bold mb-6">Count By Department</h2> */}
             <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="purple">
             <CountByDepartment artworks={artworksByDepartment}/>
             </Card>
           </div>
           <div>
-            {/* <h2 className="text-2xl font-bold mb-6">Count By Place Of Origin</h2> */}
             <Card className="max-w-md mx-auto mb-6" decoration="top" decorationColor="purple">
               <CountByOrigin artworks={artworksByOrigin}/>
             </Card>
