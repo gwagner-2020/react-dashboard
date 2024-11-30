@@ -35,7 +35,6 @@ function GenerateSelectList() {
             const [responseDeptSelectList] = await Promise.all([
                 axios.get(`https://api.artic.edu/api/v1/artworks/search`, queryDeptSelectList)
             ]);
-            console.log('responseDeptSelectList: ', responseDeptSelectList)
             setDeptSelectList(responseDeptSelectList.data.aggregations.my_buckets.buckets);
         } catch (error) {  
             console.error("Error fetching data: ", error);

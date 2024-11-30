@@ -9,17 +9,17 @@ function CountByObjectType({artworks}) {
   }).sort((a, b) => b.value - a.value).slice(0, 20);
 
   return (
-      <>
-        <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-          Object Type (Top 20)
-        </h3>
-        
-        <BarList className="max-w-md mx-auto mt-6" color="purple"
-          data={updatedArtworks}
-          sortOrder="descending"
-        />
-      </>
-    );
+    <>
+      <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+        Count By Object Type (Top 20)
+      </h3>
+      
+      <BarList className="max-w-md mx-auto mt-6" color="purple"
+        data={updatedArtworks}
+        sortOrder="descending"
+      />
+    </>
+  );
 };
 
 export default CountByObjectType;

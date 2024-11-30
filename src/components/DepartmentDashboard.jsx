@@ -4,7 +4,7 @@ import { Select, SelectItem, Card } from "@tremor/react";
 import GenerateSelectList from './api/GenerateSelectList';
 import DepartmentMetrics from './api/DepartmentMetrics';
 
-function SelectList() {
+function DepartmentDashboard() {
 
     const departments = GenerateSelectList();
 
@@ -19,14 +19,16 @@ function SelectList() {
             {/* Navigation Div */}
             <div>
                 <NavLink to="/">
-                    <div>Home</div>
+                    <button class="button">
+                        <div>Home</div>
+                    </button>
                 </NavLink>
             </div>
             
             {/* Department Select Div */}
-            <div className="text-left">
+            <div class="text-left">
                 <div>
-                    <Card className="mx-auto mt-6 mb-6" decoration="top" decorationColor="purple">
+                    <Card class="mx-auto mb-6" decoration="top" decorationColor="purple">
                         <Select
                             value={selectedDepartment}
                             onValueChange={handleSelectChange}
@@ -49,4 +51,4 @@ function SelectList() {
     );
 };
 
-export default SelectList;
+export default DepartmentDashboard;

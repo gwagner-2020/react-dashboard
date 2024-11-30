@@ -10,18 +10,18 @@ function CountByOrigin({artworks}) {
   }).sort((a, b) => b.value - a.value).slice(0, 20);
 
   return (
-      <>
-        <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-          Place of Origin (Top 20)
-        </h3>
-    
-        <BarList className="max-w-md mx-auto mt-6" color="purple"
-          data={updatedArtworks} 
-          sortOrder="descending"
-          showAnimation="true"
-        />
-      </>
-    );
+    <>
+      <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+        Count By Place of Origin (Top 20)
+      </h3>
+  
+      <BarList className="max-w-md mx-auto mt-6" color="purple"
+        data={updatedArtworks} 
+        sortOrder="descending"
+        showAnimation="true"
+      />
+    </>
+  );
 };
 
 export default CountByOrigin;

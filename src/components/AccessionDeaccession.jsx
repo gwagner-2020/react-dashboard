@@ -12,23 +12,23 @@ function AccessionDeaccession({artworks}) {
   console.log("updatedArtworks: ", updatedArtworks);
     
   return (
-      <>
-        <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-          Objects Acquired (per year)
-        </h3>
-        <BarChart
-          className="mt-6"
-          data={updatedArtworks}
-          index="year"
-          categories={['Objects']}
-          colors={['purple']}
-          valueFormatter={(number) =>
-            `${Intl.NumberFormat("us").format(number).toString()}`
-          }
-          yAxisWidth={48}
-        />
-      </>
-    );
+    <>
+      <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+        Objects Acquired Per Year (Museum-Wide)
+      </h3>
+      <BarChart
+        className="mt-6"
+        data={updatedArtworks}
+        index="year"
+        categories={['Objects']}
+        colors={['purple']}
+        valueFormatter={(number) =>
+          `${Intl.NumberFormat("us").format(number).toString()}`
+        }
+        yAxisWidth={48}
+      />
+    </>
+  );
 };
 
 export default AccessionDeaccession;

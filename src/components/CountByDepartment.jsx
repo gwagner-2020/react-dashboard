@@ -10,18 +10,18 @@ function CountByDepartment({artworks}) {
     });
 
     return (
-        <>
-          <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-            Department
-          </h3>
+      <>
+        <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+          Count By Department
+        </h3>
 
-          <BarList className="max-w-md mx-auto mt-6" color="purple"
-            // data={filteredResult}
-            data={updatedArtworks} 
-            sortOrder="descending"
-          />
-        </>
-      );
+        <BarList className="max-w-md mx-auto mt-6" color="purple"
+          // data={filteredResult}
+          data={updatedArtworks} 
+          sortOrder="descending"
+        />
+      </>
+    );
 };
 
 export default CountByDepartment;

@@ -3,7 +3,6 @@ import { Card} from "@tremor/react";
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css'
-import icon1 from "../assets/icon1.png";
 import AccessionDeaccession from './AccessionDeaccession';
 import CountByObjectType from './CountByObjectType';
 import CountByDepartment from './CountByDepartment.jsx';
@@ -18,35 +17,6 @@ function Home() {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  //   const fetchData = async() => {
-  //     setLoading(true);
-  //     try {
-  //       const response = await axios.get(`https://api.artic.edu/api/v1/artworks?page=${page}&limit=100`)
-  //       console.log('response: ', response);
-  //       setArtworks((prevArtworks) => [...prevArtworks, ...response.data.data]);      
-  //     } catch (error) {
-  //       console.error("Error fetching data: ", error);
-  //     } finally {
-  //       setLoading(false); 
-  //     }
-  //   };
-  //   fetchData();
-  // }, [page]);
-
-  // console.log('page: ', page);
-
-  // const handleLoadMore = () => {
-  //   setPage((prevPage) => prevPage + 1);
-  // };
-
-  // console.log("artworks: ", artworks)
-  // //Use this artworksArray for single api call
-  // //const artworksArray = artworks.data;
-  // const artworksArray = artworks;
-  // console.log('artworksArray:', artworksArray);
-
-  //https://api.artic.edu/api/v1/artworks/search?size=0&aggs[my-agg-name][terms][field]=place_of_origin.keyword
-  //https://api.artic.edu/api/v1/artworks/search?size=0&aggs[fiscal-year][terms][field]=fiscal_year
   useEffect(() => {
     const fetchData = async() => {
       setLoading(true);
@@ -65,14 +35,7 @@ function Home() {
                           'field': 'fiscal_year'
                         }
                       }
-                    }//,
-                    // {
-                    //   'artwork_type_id': {
-                    //     'terms': {
-                    //       'field': 'artwork_type_id'
-                    //     }
-                    //   }
-                    // }
+                    }
                   ]
                 }
               }
@@ -197,21 +160,13 @@ function Home() {
   };
 
   return (
-    <>
-      {/* Header Div */}
-      <div className="sticky top-0 z-50 h-30 w-full flex items-center text-center bg-gradient-to-r from-purple-500 to-indigo-500">
-          <a href='/'>
-            <img className="mt-2 mb-2 ml-10 w-24" src={icon1} alt="person looking at image"/>
-          </a>
-          <span className="text-3xl tracking-wider text-center text-white mx-auto">
-            <span className="font-bold">Collection Insights Dashboard</span>
-          </span>
-      </div>
-      
+    <> 
       {/* Navigation Div */}
       <div>
-        <NavLink to="/departments">
-            <div>Departments</div>
+        <NavLink to="/departmentdashboard">
+                <button class="button">
+                    <div>Department Dashboard</div>
+                </button>
         </NavLink>
       </div>
       
